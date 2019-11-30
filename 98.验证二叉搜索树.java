@@ -11,9 +11,11 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        return root==null?true:isBST(root).isValid;
+        // return dfs(root,null,null);
+        return root == null ? true : isBST(root).isValid;
+        // return inOrder(root);
     }
-
+    // 左神的套路
     public ReturnType isBST(TreeNode head) {
         if (head.left == null && head.right == null) {
             return new ReturnType(true, head.val, head.val);
@@ -38,6 +40,44 @@ class Solution {
             int min = isValid ? lData.min : Math.min(head.val, Math.min(lData.min, rData.min));
             return new ReturnType(isValid, max, min);
         }
+    }
+    // 二叉搜索树特性，左子树都比根小，右子树都比根大，根范围是(负无穷，正无穷)，左子树范围(负无穷，根的值)，右子树范围(根的值，正无穷)
+    public boolean dfs(TreeNode head, Integer min, Integer max) {
+        if (head == null) {
+            return true;
+        }
+        // if (head.val < max && head.val > min && dfs(head.left, min, head.val) &&
+        // dfs(head.right,head.val, max)) {
+        // return true;
+        // }
+        // return false;
+        if (min != null && head.val <= min)
+            return false;
+        if (max != null && head.val >= max)
+            return false;
+        if (!dfs(head.left, min, head.val))
+            return false;
+        if (!dfs(head.right, head.val, max))
+            return false;
+        return true;
+    }
+
+    // 非递归中序遍历
+    public static boolean inOrder(TreeNode head) {
+        Deque<TreeNode> stack = new LinkedList<>();
+        Integer pre = null;
+        while (!stack.isEmpty() || head != null) {
+            while (head != null) {
+                stack.push(head);
+                head = head.left;
+            }
+            head = stack.pop();
+            if (pre != null && head.val <= pre)
+                return false;
+            pre = head.val;
+            head = head.right;
+        }
+        return true;
     }
 
 }
