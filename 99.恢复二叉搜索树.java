@@ -11,7 +11,6 @@
  */
 class Solution {
     public void recoverTree(TreeNode root) {
-        // HashMap<Integer, TreeNode> map = new HashMap<>();
         Deque<TreeNode> stack = new LinkedList<>();
         TreeNode pre = null;
         TreeNode mark1 = null;
