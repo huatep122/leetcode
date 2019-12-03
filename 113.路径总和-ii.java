@@ -21,23 +21,13 @@ class Solution {
             return result;
         if (sum == root.val && root.left == null && root.right == null) {
             list.add(root.val);
-            List<Integer> l = clone(list);
-            result.add(l);
+            result.add(new ArrayList<>(list));
             list.remove(list.size()-1);
         }
         list.add(root.val);
         result = help(result, list, root.left, sum-root.val);
         result = help(result, list, root.right, sum-root.val);
         list.remove(list.size()-1);
-        return result;
-    }
-
-    public List<Integer> clone(List<Integer> list) {
-        List<Integer> result = new ArrayList<>();
-        for (Integer val : list) {
-            result.add(val);
-        }
-        return result;
-    }
+        return result;}
 }
 // @lc code=end
