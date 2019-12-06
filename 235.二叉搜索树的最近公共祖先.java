@@ -22,9 +22,18 @@ class Solution {
     //     return left == null ? right : left;
     // }
     private Map<TreeNode, TreeNode> map = new HashMap<>();
+    private Set<TreeNode> set = new HashSet<>();
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        
-
+        map.put(root, null);
+        setMap(root);
+        while (p != null) {
+            set.add(p);
+            p = map.get(p);
+        }
+        while (q != null && !set.contains(q)) {
+            q = map.get(q);
+        }
+        return q;
     }
 
     public void setMap(TreeNode root) {
