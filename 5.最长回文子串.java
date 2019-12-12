@@ -34,6 +34,37 @@ class Solution {
         }
         return result;
     }
+
+    public String longestPalindrome(String s) {
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        if (len == 0) {
+            return "";
+        }
+        int resBegin = 0;
+        int max = 1;
+        boolean[][] dp = new boolean[len][len];
+        for (int i = 0; i < len; i++) {
+            dp[i][i] = true;
+            if (i + 1 < len) {
+                dp[i][i + 1] = chars[i] == chars[i + 1];
+                if (dp[i][i + 1] && 2 > max) {
+                    max = 2;
+                    resBegin = i;
+                }
+            }
+        }
+        for (int col = 2; col < len; col++) {
+            for (int row = 0; row < col-1; row++) {
+                dp[row][col] = chars[row] == chars[col] && dp[row + 1][col - 1];
+                if (dp[row][col] && col - row + 1 > max) {
+                    max = col - row + 1;
+                    resBegin = row;
+                }
+            }
+        }
+        return max == len ? s : s.substring(resBegin, resBegin + max);
+    }
 }
 // @lc code=end
 
